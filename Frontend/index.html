@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Group 41 -- VAST 2022 MC3</title>
+  <link rel="stylesheet" href="./styles/style.css" />
+  <!-- Icons -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
+  <!-- DateTimePicker -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <!-- jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!-- JS plugin for date-time picker (all browser support) -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <!-- D3 - Import library -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <!-- Axios library -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+</head>
+
+<body>
+  <!-- main container of fixed size-->
+  <div class="container bg-color">
+    <!-- Sidebar -->
+    <div class="sidebar primary-color shadow noselect">
+      <div class="material-symbols-outlined icon" icon-tooltip="Density plot" id="density-icon">
+        bar_chart
+      </div>
+      <div class="material-symbols-outlined icon" icon-tooltip="Circular bar plot" id="circle-icon">
+        donut_large
+      </div>
+      <div class="material-symbols-outlined icon" icon-tooltip="Map" id="map-icon">map</div>
+      <div class="material-symbols-outlined icon" icon-tooltip="Stream chart" id="stream-icon">
+        area_chart
+      </div>
+      <div class="material-symbols-outlined icon" icon-tooltip="Line Bar plot" id="linebar-icon">
+        monitoring
+      </div>
+      <div class="material-symbols-outlined icon" icon-tooltip="Heat Map" id="heatmap-icon">
+        view_module
+      </div>
+    </div>
+
+    <!-- Container for heading and the rest -->
+    <div class="main-content">
+      <div class="heading-container primary-color shadow card">
+        <h1 class="ternary-text-color">
+          Vast Challenge 2022 MC3: Economic Issues and Financial Health
+        </h1>
+      </div>
+      <div class="view-parent-container">
+        <!-- Container for heading of the views -->
+        <div class="option-parent-container">
+          <!-- Header start and end date -->
+          <div class="calendar-container">
+            <div icon-tooltip="Start date">
+              <input class="input-calendar shadow ternary-text-color" type="text" id="startDate"
+                placeholder="Start date">
+            </div>
+            <div class="material-symbols-outlined arrow-icon">
+              line_end_arrow_notch
+            </div>
+            <div icon-tooltip="End date">
+              <input class="input-calendar shadow ternary-text-color" type="text" id="endDate" placeholder="End date">
+            </div>
+          </div>
+          <!-- Sideview heading -->
+          <div class="sideview-heading-container">
+            <div id="back-sideview-icon" class="material-symbols-outlined sideview-icon noselect">arrow_back_ios</div>
+            <div class="wrapper-slide">
+              <div class="slider-item-slide">
+                <h2 class="side-head-slide ternary-text-color primary-color card">Personal</h2>
+              </div>
+              <div class="slider-item-slide">
+                <h2 class="side-head-slide ternary-text-color primary-color card">Commercial</h2>
+              </div>
+              <div class="slider-item-slide">
+                <h2 class="side-head-slide ternary-text-color primary-color card">Maps</h2>
+              </div>
+              <div class="slider-item-slide">
+                <h2 class="side-head-slide ternary-text-color primary-color card">Mixed</h2>
+              </div>
+            </div>
+            <div id="next-sideview-icon" class="material-symbols-outlined sideview-icon noselect">arrow_forward_ios
+            </div>
+          </div>
+        </div>
+        <div class="main-view-container">
+          <div class="filter-sort-view-container">
+            <div class="filter-container primary-color card primary-font ternary-text-color">
+              <h2 class="ternary-text-color">Filter options</h2>
+              <!-- <label for="mySlider"> Bandwidth </label>
+              <input type="range" name="mySlider" id='mySlider' min="10" max="100" value="50">
+              <label for='minWage'>Minimum Wage per hour</label>
+              <input type='number' name='minWage' id='minWage' value=5 />
+              <button class="ternary-text-color primary-font" id='minWageButton'>Change Minimum Wage</button> -->
+            </div>
+            <div class="legend-container primary-color card primary-font ternary-text-color">
+              <h2 class="ternary-text-color">Legend</h1>
+                <!-- <svg id="main-legend-svg"> -->
+            </div>
+          </div>
+          <div class="main-view primary-color card" id="tempId">
+            <span class="loader"></span>
+            <svg id="chart_svg_tempId"></svg>
+          </div>
+          <div class="sideview-scroll-container">
+            <div class="sideview transition">
+              <div class="sideview-panel primary-color card" id="linebar-sideview">
+                <span class="loader"></span>
+                <svg id="chart_svg_linebar-sideview"></svg>
+                <div class="sideview-overlay">
+                  <h2>Linebar chart</h2>
+                </div>
+              </div>
+              <div class="sideview-panel primary-color card" id="heatmap-sideview">
+                <span class="loader"></span>
+                <svg id="chart_svg_heatmap-sideview"></svg>
+                <div class="sideview-overlay">
+                  <h2>Heatmap chart</h2>
+                </div>
+              </div>
+              <div class="sideview-panel primary-color card" id="density-sideview">
+                <span class="loader"></span>
+                <svg id="chart_svg_density-sideview"></svg>
+                <div class="sideview-overlay">
+                  <h2>Density chart</h2>
+                </div>
+              </div>
+              <div class="sideview-panel primary-color card" id="circle-sideview">
+                <span class="loader"></span>
+                <svg id="chart_svg_circle-sideview"></svg>
+                <div class="sideview-overlay">
+                  <h2>Circular Bar chart</h2>
+                </div>
+              </div>
+              <div class="sideview-panel primary-color card" id="stream-sideview">
+                <span class="loader"></span>
+                <svg id="chart_svg_stream-sideview"></svg>
+                <div class="sideview-overlay">
+                  <h2>Stream chart</h2>
+                </div>
+              </div>
+              <div class="sideview-panel primary-color card" id="map-sideview">
+                <span class="loader"></span>
+                <svg id="chart_svg_map-sideview"></svg>
+                <div class="sideview-overlay">
+                  <h2>Location Map</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- JS styling -->
+      <script src="./scripts/calendar-script.js"></script>
+      <script src="./scripts/style-script.js"></script>
+      <script src="./scripts/util/animate-flex.js"></script>
+
+      <!-- JS Main for laoding everything -->
+      <script src="./scripts/util/main.js"></script>
+
+      <!-- JS for data util -->
+      <script src="./scripts/util/get_data.js"></script>
+      <script src="./scripts/util/utilities.js"></script>
+
+      <!-- JS for linebar graph -->
+      <script src="./scripts/LineBar/linebar-script.js"></script>
+
+      <!-- JS for heatmap graph -->
+      <script src="./scripts/Heatmap/heatmap-script.js"></script>
+
+      <!-- JS for density graph -->
+      <script src="./scripts/Density/density-script.js"></script>
+
+      <!-- JS for circular graph -->
+      <script src="./scripts/Circle/circle-script.js"></script>
+
+      <!-- JS for Stream -->
+      <script src="./scripts/Stream/stream-script.js"></script>
+
+      <!-- JS for Maps -->
+      <script src="./scripts/Maps/map-script.js"></script>
+
+</body>
+
+</html>
